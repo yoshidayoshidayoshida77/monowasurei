@@ -84,16 +84,27 @@
 
 
 
+
 function initCards() {
   cards = [];
   const specialWords = ["物忘霊", "赤坂柿山"];
-  const normalWords = ["めんどく山脈", "沖にでる", "LOOK AT ME", "エグゼキューション", "ユーアーショック",
-                       "負けへんで", "Au revoir", "ヒヤスンス", "OGORI＆MUNOU", "プシュカーシャ", "チュクチュン"];
+  const normalWords = [
+    "めんどく山脈", "沖にでる", "LOOK AT ME", "エグゼキューション",
+    "ユーアーショック", "負けへんで", "Au revoir", "ヒヤスンス",
+    "OGORI＆MUNOU", "プシュカーシャ", "チュクチュン"
+  ];
 
   normalWords.forEach(word => {
-    for (let i = 0; i < 2; i++) {
-      cards.push({ id: word + '-' + i, word, type: "normal", flipped: false, matched: false });
-    }
+    cards.push({ id: word + "-0", word: word, type: "normal", flipped: false, matched: false });
+    cards.push({ id: word + "-1", word: word, type: "normal", flipped: false, matched: false });
+  });
+
+  cards.push({ id: "bomb-0", word: "物忘霊", type: "bomb", flipped: false, matched: false });
+  cards.push({ id: "bonus-0", word: "赤坂柿山", type: "timebonus", flipped: false, matched: false });
+
+  cards = cards.sort(() => Math.random() - 0.5);
+}
+
   });
 
   cards.push({ id: "bomb-1", word: "物忘霊", type: "bomb", flipped: false, matched: false });
