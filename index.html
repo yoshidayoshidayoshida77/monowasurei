@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OVER THE SUN 名言神経衰弱</title>
+  <title>OVER THE SUN 物忘霊神経衰弱</title>
   <style>
     body { font-family: sans-serif; text-align: center; }
     #game {
@@ -47,7 +47,7 @@
   </style>
 </head>
 <body>
-  <h1>OVER THE SUN 名言神経衰弱</h1>
+  <h1>OVER THE SUN 物忘霊神経衰弱</h1>
   <div>残り: <span id="timer">60</span>秒｜得点: <span id="score">0</span></div>
   <div id="message"></div>
   <div id="shareArea" style="margin: 20px;"></div>
@@ -60,7 +60,7 @@
 
     function showShareButton() {
       const share = document.createElement("a");
-      const scoreText = encodeURIComponent(`得点: ${score}点でした！OVER THE SUN 名言神経衰弱`);
+      const scoreText = encodeURIComponent(`得点: ${score}点でした！OVER THE SUN 物忘霊神経衰弱`);
       share.href = `https://twitter.com/intent/tweet?text=${scoreText}&hashtags=オーバーザサン,名言神経衰弱&url=https://yoshidayoshidayoshida77.github.io/monowasurei/`;
       share.target = "_blank";
       share.textContent = "Xでシェアする";
