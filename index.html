@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -8,84 +7,69 @@
   <style>
     body {
       font-family: sans-serif;
-      background-color: #fff;
-      margin: 0;
-      padding: 0;
       text-align: center;
-    }
-    h1 {
-      font-size: 1.5rem;
-      margin: 20px 0 10px;
-    }
-    #status {
-      font-size: 1.1rem;
-      margin-bottom: 10px;
     }
     #game {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
       gap: 10px;
-      padding: 10px;
       max-width: 600px;
-      margin: 0 auto 40px;
+      margin: 0 auto;
     }
     .card {
-      position: relative;
-      width: 100%;
       aspect-ratio: 2 / 1.3;
       background-color: #ddd;
       border-radius: 10px;
       overflow: hidden;
-      cursor: pointer;
-      user-select: none;
       display: flex;
       justify-content: center;
       align-items: center;
+      cursor: pointer;
       font-size: 1rem;
-      color: #333;
     }
     .card img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-    .flipped {
-      background-color: #fff;
-      border: 2px solid #ccc;
-    }
     .flipped img {
       display: none;
     }
-    #message {
-      font-size: 1.1rem;
-      color: green;
-      margin-bottom: 20px;
+    #ending {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: white;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    #ending img {
+      width: 80%;
     }
   </style>
 </head>
 <body>
   <h1>OVER THE SUN 名言神経衰弱</h1>
-  <div id="status">残り: <span id="timer">60</span>秒｜得点: <span id="score">0</span></div>
+  <div>残り: <span id="timer">60</span>秒｜得点: <span id="score">0</span></div>
   <div id="message"></div>
   <div id="game"></div>
+  <div id="ending"><img src="OTS_logo.png" alt=""></div>
   <audio id="bgm" src="bgm.mp3" loop></audio>
+  <audio id="se" src="se.mp3"></audio>
   <script>
-    const words = [
-      "めんどく山脈", "沖にでる", "推しは石", "LOOK AT ME", "天空のパーティー",
-      "エグゼキューション", "ユーアーショック", "プシュカーシャ", "およそ30分", "リンゴとみかん",
-      "THE薬", "負けへんで", "Au revoir", "ヒヤスンス", "OGORI＆MUNOU",
-      "プシュカーシャ", "ご縁に感謝", "チュクチュン", "苦桃", "物忘霊"
-    ];
+    const words = ["めんどく山脈", "沖にでる", "LOOK AT ME", "エグゼキューション", "ユーアーショック", "負けへんで", "Au revoir", "ヒヤスンス", "OGORI＆MUNOU", "プシュカーシャ", "チュクチュン", "物忘霊", "物忘霊"];
     let cards = [], flipped = [], matchedCount = 0, score = 0, timeLeft = 60, started = false, timer;
 
     function initCards() {
       cards = [];
+      let id = 1;
       words.forEach(word => {
-        if (word === "物忘霊") {
-          cards.push({ id: `${word}-X`, word, type: "bomb", flipped: false, matched: false });
-        } else {
-          cards.push({ id: `${word}-1`, word, type: "normal", flipped: false, matched: false });
-          cards.push({ id: `${word}-2`, word, type: "normal", flipped: false, matched: false });
+        const type = word === "物忘霊" ? "bomb" : "normal";
+        const count = word === "物忘霊" ? 1 : 2;
+        for (let i = 0; i < count; i++) {
+          cards.push({ id: word + '-' + i, word, type, flipped: false, matched: false });
         }
       });
       cards = cards.sort(() => Math.random() - 0.5);
@@ -93,7 +77,6 @@
 
     function render() {
       const game = document.getElementById("game");
-      const scoreDisplay = document.getElementById("score");
       game.innerHTML = "";
       cards.forEach(card => {
         const div = document.createElement("div");
@@ -103,13 +86,12 @@
         } else {
           const img = document.createElement("img");
           img.src = "OTS_logo.png";
-          img.alt = "";
           div.appendChild(img);
         }
         div.onclick = () => flipCard(card.id);
         game.appendChild(div);
       });
-      scoreDisplay.textContent = score;
+      document.getElementById("score").textContent = score;
     }
 
     function flipCard(id) {
@@ -119,7 +101,6 @@
       card.flipped = true;
       flipped.push(card);
       render();
-
       if (card.type === "bomb") {
         setTimeout(() => {
           score = Math.max(0, score - 5);
@@ -129,7 +110,6 @@
         flipped = [];
         return;
       }
-
       if (flipped.length === 2) {
         setTimeout(() => {
           if (flipped[0].word === flipped[1].word) {
@@ -147,29 +127,28 @@
     }
 
     function checkWin() {
-      if (matchedCount === 19) {
+      if (matchedCount === 11) {
         clearInterval(timer);
-        document.getElementById("message").textContent = `全ペア揃いました！得点: ${score}点｜オーバー！`;
+        document.getElementById("message").textContent = "全ペア揃いました！おめでとう！";
+        document.getElementById("ending").style.display = "flex";
+        document.getElementById("se").play();
       }
     }
 
     function startGame() {
-      const bgm = document.getElementById("bgm");
-      bgm.play().catch(() => console.log("再生はユーザー操作後に限定されます"));
+      document.getElementById("bgm").play().catch(() => { });
       timer = setInterval(() => {
         timeLeft--;
         document.getElementById("timer").textContent = timeLeft;
         if (timeLeft <= 0) {
           clearInterval(timer);
-          document.getElementById("message").textContent = `時間切れ！得点: ${score}点`;
+          document.getElementById("message").textContent = "時間切れ！";
         }
       }, 1000);
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-      initCards();
-      render();
-    });
+    initCards();
+    render();
   </script>
 </body>
 </html>
