@@ -59,14 +59,14 @@
   <audio id="bgm" src="bgm.mp3" loop></audio>
   <audio id="se" src="se.mp3"></audio>
   <script>
-    const words = ["めんどく山脈", "沖にでる", "LOOK AT ME", "エグゼキューション", "ユーアーショック", "負けへんで", "Au revoir", "ヒヤスンス", "OGORI＆MUNOU", "プシュカーシャ", "チュクチュン", "物忘霊", "物忘霊"];
+    const words = ["めんどく山脈", "沖にでる", "LOOK AT ME", "エグゼキューション", "ユーアーショック", "負けへんで", "Au revoir", "ヒヤスンス", "OGORI＆MUNOU", "プシュカーシャ", "チュクチュン", "物忘霊", "赤坂柿山"];
     let cards = [], flipped = [], matchedCount = 0, score = 0, timeLeft = 60, started = false, timer;
 
     function initCards() {
       cards = [];
       let id = 1;
       words.forEach(word => {
-        const type = word === "物忘霊" ? "bomb" : "normal";
+        const type = word === "物忘霊" ? "bomb" : (word === "赤坂柿山" ? "timebonus" : "normal");
         const count = word === "物忘霊" ? 1 : 2;
         for (let i = 0; i < count; i++) {
           cards.push({ id: word + '-' + i, word, type, flipped: false, matched: false });
@@ -101,7 +101,19 @@
       card.flipped = true;
       flipped.push(card);
       render();
+      
+      
+      if (card.type === "timebonus") {
+        card.matched = true;
+        score += 5;
+        timeLeft += 10;
+        document.getElementById("message").textContent = "⏱️ 赤坂柿山で時間+10秒！";
+        flipped = []; render(); return;
+      }
+
       if (card.type === "bomb") {
+        card.matched = true;  // 一度めくったらそのまま
+
         setTimeout(() => {
           score = Math.max(0, score - 5);
           document.getElementById("message").textContent = "💀 物忘霊が記憶をかき乱した！全カードシャッフル！";
