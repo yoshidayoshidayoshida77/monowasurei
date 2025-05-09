@@ -70,7 +70,16 @@
 
     
     function showShareButton() {
-      showShareButton();
+      
+    const share = document.createElement("a");
+    const scoreText = encodeURIComponent(`得点: ${score}点でした！OVER THE SUN 名言神経衰弱`);
+    share.href = `https://twitter.com/intent/tweet?text=${scoreText}&hashtags=オーバーザサン,名言神経衰弱&url=https://yoshidayoshidayoshida77.github.io/monowasurei/`;
+    share.target = "_blank";
+    share.textContent = "Xでシェアする";
+    share.style.fontSize = "1.2rem";
+    share.style.marginTop = "20px";
+    document.getElementById("shareArea").appendChild(share);
+    
     }
 
 
@@ -177,9 +186,19 @@ function initCards() {
       if (matchedCount === 11) {
         clearInterval(timer);
         document.getElementById("message").textContent = "全ペア揃いました！おめでとう！";
+        document.getElementById("bgm").pause();
         document.getElementById("ending").style.display = "flex";
         document.getElementById("se").play();
-    showShareButton();
+    
+    const share = document.createElement("a");
+    const scoreText = encodeURIComponent(`得点: ${score}点でした！OVER THE SUN 名言神経衰弱`);
+    share.href = `https://twitter.com/intent/tweet?text=${scoreText}&hashtags=オーバーザサン,名言神経衰弱&url=https://yoshidayoshidayoshida77.github.io/monowasurei/`;
+    share.target = "_blank";
+    share.textContent = "Xでシェアする";
+    share.style.fontSize = "1.2rem";
+    share.style.marginTop = "20px";
+    document.getElementById("shareArea").appendChild(share);
+    
       }
     }
 
@@ -191,7 +210,25 @@ function initCards() {
         if (timeLeft <= 0) {
           clearInterval(timer);
           document.getElementById("message").textContent = "時間切れ！";
-          showShareButton();
+          document.getElementById("bgm").pause();
+          const share = document.createElement("a");
+          const scoreText = encodeURIComponent(`得点: ${score}点でした！OVER THE SUN 名言神経衰弱`);
+          share.href = `https://twitter.com/intent/tweet?text=${scoreText}&hashtags=オーバーザサン,名言神経衰弱&url=https://yoshidayoshidayoshida77.github.io/monowasurei/`;
+          share.target = "_blank";
+          share.textContent = "Xでシェアする";
+          share.style.fontSize = "1.2rem";
+          share.style.marginTop = "20px";
+          document.getElementById("shareArea").appendChild(share);
+          
+    const share = document.createElement("a");
+    const scoreText = encodeURIComponent(`得点: ${score}点でした！OVER THE SUN 名言神経衰弱`);
+    share.href = `https://twitter.com/intent/tweet?text=${scoreText}&hashtags=オーバーザサン,名言神経衰弱&url=https://yoshidayoshidayoshida77.github.io/monowasurei/`;
+    share.target = "_blank";
+    share.textContent = "Xでシェアする";
+    share.style.fontSize = "1.2rem";
+    share.style.marginTop = "20px";
+    document.getElementById("shareArea").appendChild(share);
+    
         }
       }, 1000);
     }
