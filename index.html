@@ -59,6 +59,7 @@
   <div>残り: <span id="timer">60</span>秒｜得点: <span id="score">0</span></div>
   <div id="message"></div>
   <div id="game"></div>
+  <div id="shareArea" style="margin: 20px;"></div>
   <div id="ending"><img src="OTS_logo.png" alt=""></div>
   <audio id="bgm" src="bgm.mp3" loop></audio>
   <audio id="se" src="se.mp3"></audio>
@@ -75,7 +76,7 @@
       share.textContent = "Xでシェアする";
       share.style.fontSize = "1.2rem";
       share.style.marginTop = "20px";
-      document.getElementById("ending").appendChild(share);
+      document.getElementById("shareArea").appendChild(share);
     }
 
 
@@ -191,7 +192,7 @@ function initCards() {
     share.textContent = "Xでシェアする";
     share.style.fontSize = "1.2rem";
     share.style.marginTop = "20px";
-    document.getElementById("ending").appendChild(share);
+    document.getElementById("shareArea").appendChild(share);
       }
     }
 
