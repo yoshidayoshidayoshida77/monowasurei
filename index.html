@@ -112,12 +112,19 @@
       }
 
       if (card.type === "bomb") {
+        card.flipped = true;
+        card.matched = true;
+
         card.matched = true;  // 一度めくったらそのまま
 
         setTimeout(() => {
           score = Math.max(0, score - 5);
           document.getElementById("message").textContent = "💀 物忘霊が記憶をかき乱した！全カードシャッフル！";
-          initCards(); render();
+          const preserved = cards.filter(c => c.matched);
+          const toShuffle = cards.filter(c => !c.matched && c.type !== "bomb");
+          toShuffle.sort(() => Math.random() - 0.5);
+          cards = [...preserved, ...toShuffle];
+          render();
         }, 800);
         flipped = [];
         return;
