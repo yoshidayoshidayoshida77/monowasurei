@@ -5,10 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OVER THE SUN 名言神経衰弱</title>
   <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-    }
+    body { font-family: sans-serif; text-align: center; }
     #game {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
@@ -45,14 +42,9 @@
       justify-content: center;
       z-index: 999;
     }
-    #ending img {
-      width: 80%;
-    }
-  
-    .shuffle {
-      transition: transform 0.4s ease;
-    }
-    </style>
+    #ending img { width: 80%; }
+    .shuffle { transition: transform 0.4s ease; }
+  </style>
 </head>
 <body>
   <h1>OVER THE SUN 名言神経衰弱</h1>
@@ -60,63 +52,37 @@
   <div id="message"></div>
   <div id="shareArea" style="margin: 20px;"></div>
   <div id="game"></div>
-  <div id="shareArea" style="margin: 20px;"></div>
   <div id="ending"><img src="OTS_logo.png" alt=""></div>
   <audio id="bgm" src="bgm.mp3" loop></audio>
   <audio id="se" src="se.mp3"></audio>
   <script>
-    const words = ["めんどく山脈", "沖にでる", "LOOK AT ME", "エグゼキューション", "ユーアーショック", "負けへんで", "Au revoir", "ヒヤスンス", "OGORI＆MUNOU", "プシュカーシャ", "チュクチュン", "物忘霊", "赤坂柿山"];
     let cards = [], flipped = [], matchedCount = 0, score = 0, timeLeft = 60, started = false, timer;
 
-    
     function showShareButton() {
-      
-    const share = document.createElement("a");
-    const scoreText = encodeURIComponent(`得点: ${score}点でした！OVER THE SUN 名言神経衰弱`);
-    share.href = `https://twitter.com/intent/tweet?text=${scoreText}&hashtags=オーバーザサン,名言神経衰弱&url=https://yoshidayoshidayoshida77.github.io/monowasurei/`;
-    share.target = "_blank";
-    share.textContent = "Xでシェアする";
-    share.style.fontSize = "1.2rem";
-    share.style.marginTop = "20px";
-    document.getElementById("shareArea").appendChild(share);
-    
+      const share = document.createElement("a");
+      const scoreText = encodeURIComponent(`得点: ${score}点でした！OVER THE SUN 名言神経衰弱`);
+      share.href = `https://twitter.com/intent/tweet?text=${scoreText}&hashtags=オーバーザサン,名言神経衰弱&url=https://yoshidayoshidayoshida77.github.io/monowasurei/`;
+      share.target = "_blank";
+      share.textContent = "Xでシェアする";
+      share.style.fontSize = "1.2rem";
+      share.style.marginTop = "20px";
+      document.getElementById("shareArea").appendChild(share);
     }
 
+    function initCards() {
+      cards = [];
+      const normalWords = ["めんどく山脈", "沖にでる", "LOOK AT ME", "エグゼキューション",
+        "ユーアーショック", "負けへんで", "Au revoir", "ヒヤスンス",
+        "OGORI＆MUNOU", "プシュカーシャ", "チュクチュン"];
 
-
-
-function initCards() {
-  cards = [];
-  const specialWords = ["物忘霊", "赤坂柿山"];
-  const normalWords = [
-    "めんどく山脈", "沖にでる", "LOOK AT ME", "エグゼキューション",
-    "ユーアーショック", "負けへんで", "Au revoir", "ヒヤスンス",
-    "OGORI＆MUNOU", "プシュカーシャ", "チュクチュン"
-  ];
-
-  normalWords.forEach(word => {
-    cards.push({ id: word + "-0", word: word, type: "normal", flipped: false, matched: false });
-    cards.push({ id: word + "-1", word: word, type: "normal", flipped: false, matched: false });
-  });
-
-  cards.push({ id: "bomb-0", word: "物忘霊", type: "bomb", flipped: false, matched: false });
-  cards.push({ id: "bonus-0", word: "赤坂柿山", type: "timebonus", flipped: false, matched: false });
-
-  cards = cards.sort(() => Math.random() - 0.5);
-}
-
-  });
-
-  cards.push({ id: "bomb-1", word: "物忘霊", type: "bomb", flipped: false, matched: false });
-  cards.push({ id: "bonus-1", word: "赤坂柿山", type: "timebonus", flipped: false, matched: false });
-
-  cards = cards.sort(() => Math.random() - 0.5);
-}
-
-    );
-        }
-    
+      normalWords.forEach(word => {
+        cards.push({ id: word + "-0", word, type: "normal", flipped: false, matched: false });
+        cards.push({ id: word + "-1", word, type: "normal", flipped: false, matched: false });
       });
+
+      cards.push({ id: "bomb-0", word: "物忘霊", type: "bomb", flipped: false, matched: false });
+      cards.push({ id: "bonus-0", word: "赤坂柿山", type: "timebonus", flipped: false, matched: false });
+
       cards = cards.sort(() => Math.random() - 0.5);
     }
 
@@ -146,29 +112,25 @@ function initCards() {
       card.flipped = true;
       flipped.push(card);
       render();
-      
-      
+
       if (card.type === "timebonus") {
         card.matched = true;
         score += 5;
         timeLeft += 10;
         document.getElementById("message").textContent = "⏱️ 赤坂柿山で時間+10秒！";
-        flipped = []; render(); return;
+        flipped = [];
+        render();
+        return;
       }
 
       if (card.type === "bomb") {
         card.flipped = true;
         card.matched = true;
-
-        card.matched = true;  // 一度めくったらそのまま
-
         setTimeout(() => {
           score = Math.max(0, score - 5);
           document.getElementById("message").textContent = "💀 物忘霊が記憶をかき乱した！全カードシャッフル！";
-          
-          
           const gameBoard = document.getElementById("game");
-          [...gameBoard.children].forEach((card, i) => {
+          [...gameBoard.children].forEach(card => {
             const dx = (Math.random() - 0.5) * 40;
             const dy = (Math.random() - 0.5) * 40;
             card.classList.add("shuffle");
@@ -181,24 +143,26 @@ function initCards() {
             cards = [...preserved, ...toShuffle];
             render();
           }, 400);
-
-          render();
         }, 800);
         flipped = [];
         return;
       }
+
       if (flipped.length === 2) {
         setTimeout(() => {
           if (flipped[0].word === flipped[1].word) {
             flipped[0].matched = true;
             flipped[1].matched = true;
-            matchedCount++; score += 10;
+            matchedCount++;
+            score += 10;
           } else {
             flipped[0].flipped = false;
             flipped[1].flipped = false;
             score = Math.max(0, score - 2);
           }
-          flipped = []; render(); checkWin();
+          flipped = [];
+          render();
+          checkWin();
         }, 1000);
       }
     }
@@ -210,16 +174,7 @@ function initCards() {
         document.getElementById("bgm").pause();
         document.getElementById("ending").style.display = "flex";
         document.getElementById("se").play();
-    
-    const share = document.createElement("a");
-    const scoreText = encodeURIComponent(`得点: ${score}点でした！OVER THE SUN 名言神経衰弱`);
-    share.href = `https://twitter.com/intent/tweet?text=${scoreText}&hashtags=オーバーザサン,名言神経衰弱&url=https://yoshidayoshidayoshida77.github.io/monowasurei/`;
-    share.target = "_blank";
-    share.textContent = "Xでシェアする";
-    share.style.fontSize = "1.2rem";
-    share.style.marginTop = "20px";
-    document.getElementById("shareArea").appendChild(share);
-    
+        showShareButton();
       }
     }
 
@@ -232,24 +187,7 @@ function initCards() {
           clearInterval(timer);
           document.getElementById("message").textContent = "時間切れ！";
           document.getElementById("bgm").pause();
-          const share = document.createElement("a");
-          const scoreText = encodeURIComponent(`得点: ${score}点でした！OVER THE SUN 名言神経衰弱`);
-          share.href = `https://twitter.com/intent/tweet?text=${scoreText}&hashtags=オーバーザサン,名言神経衰弱&url=https://yoshidayoshidayoshida77.github.io/monowasurei/`;
-          share.target = "_blank";
-          share.textContent = "Xでシェアする";
-          share.style.fontSize = "1.2rem";
-          share.style.marginTop = "20px";
-          document.getElementById("shareArea").appendChild(share);
-          
-    const share = document.createElement("a");
-    const scoreText = encodeURIComponent(`得点: ${score}点でした！OVER THE SUN 名言神経衰弱`);
-    share.href = `https://twitter.com/intent/tweet?text=${scoreText}&hashtags=オーバーザサン,名言神経衰弱&url=https://yoshidayoshidayoshida77.github.io/monowasurei/`;
-    share.target = "_blank";
-    share.textContent = "Xでシェアする";
-    share.style.fontSize = "1.2rem";
-    share.style.marginTop = "20px";
-    document.getElementById("shareArea").appendChild(share);
-    
+          showShareButton();
         }
       }, 1000);
     }
