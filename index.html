@@ -48,7 +48,11 @@
     #ending img {
       width: 80%;
     }
-  </style>
+  
+    .shuffle {
+      transition: transform 0.4s ease;
+    }
+    </style>
 </head>
 <body>
   <h1>OVER THE SUN 名言神経衰弱</h1>
@@ -120,10 +124,23 @@
         setTimeout(() => {
           score = Math.max(0, score - 5);
           document.getElementById("message").textContent = "💀 物忘霊が記憶をかき乱した！全カードシャッフル！";
-          const preserved = cards.filter(c => c.matched);
-          const toShuffle = cards.filter(c => !c.matched && c.type !== "bomb");
-          toShuffle.sort(() => Math.random() - 0.5);
-          cards = [...preserved, ...toShuffle];
+          
+          
+          const gameBoard = document.getElementById("game");
+          [...gameBoard.children].forEach((card, i) => {
+            const dx = (Math.random() - 0.5) * 40;
+            const dy = (Math.random() - 0.5) * 40;
+            card.classList.add("shuffle");
+            card.style.transform = `translate(${dx}px, ${dy}px) rotate(${Math.random() * 20 - 10}deg)`;
+          });
+          setTimeout(() => {
+            const preserved = cards.filter(c => c.matched);
+            const toShuffle = cards.filter(c => !c.matched && c.type !== "bomb");
+            toShuffle.sort(() => Math.random() - 0.5);
+            cards = [...preserved, ...toShuffle];
+            render();
+          }, 400);
+
           render();
         }, 800);
         flipped = [];
